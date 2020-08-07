@@ -1,0 +1,550 @@
+#################################################################
+#								#
+# ARQUIVO DE CONFIGURACAO DOS "JOBS"				#
+#								#
+# EDITADO EM 14/02/2018						#
+#								#
+# POR Auricelio Freitas						#
+#								#
+#################################################################
+#-------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------
+
+# CATALOGO - Backup the catalog database (after the nightly save)
+
+Job {
+  Name = "BackupCatalog"
+  JobDefs = "DefaultJob"
+  Level = Full
+  FileSet="Catalog"
+  Schedule = "WeeklyCycleAfterBackup"
+  # This creates an ASCII copy of the catalog
+  # Arguments to make_catalog_backup.pl are:
+  #  make_catalog_backup.pl <catalog-name>
+  RunBeforeJob = "/etc/bacula/scripts/make_catalog_backup.pl MyCatalog"
+  # This deletes the copy of the catalog
+#  RunAfterJob  = "/etc/bacula/scripts/delete_catalog_backup"
+  Write Bootstrap = "/var/lib/bacula/%n.bsr"
+  Priority = 12                   # run after main backup
+}
+
+#-------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------
+
+#JOBS CRIADO POR ISAQUE E LUCAS - VICEGOV
+
+
+Job {
+  Name = "hgsrv57"
+  Type = backup
+  Client=hgsrv57-fd
+  FileSet="DOCKER"
+  Schedule = "ModeloGFS"
+  Pool = Tape-DIARIA
+  Storage = IBM-3573
+  Messages = Standard
+}
+
+
+# SO PRECISA DESTE JOB PARA RESTAURACAO
+
+Job {
+  Name = "RestoreFiles"
+  Type = Restore
+  Client=srvbacula2-fd
+  FileSet="Full Set"
+  Storage = IBM-3573
+  Pool = Tape-DIARIA
+  Messages = Standard
+  Where = "C:/RESTORE/"
+}
+
+#-------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------
+
+# JOB_DEFS
+
+JobDefs {
+  Name = "DefaultJob"
+  Type = Backup
+  Level = Full
+  Client = srvbacula2-fd
+  FileSet = "Full Set"
+  Schedule = "ModeloGFS"
+  Storage = IBM-3573
+  Messages = Standard
+  Pool = Tape-SEMANAL
+  Priority = 10
+  Write Bootstrap = "/var/lib/bacula/%c.bsr"
+}
+
+#-------------------------------------------------------------------------------------
+
+# DIRECTOR
+
+Job {
+  Name = "BackupDirector"
+  JobDefs = "DefaultJob"
+  Client = srvbacula2-fd
+  Priority = 9
+}
+
+
+#-------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------
+
+# SRVFILE1
+
+Job {
+  Name = "SRVFILE1-M-CIM"
+  JobDefs = "DefaultJob"
+  FileSet = "M-CIM"
+  Client = srvfile1-fd
+    }
+
+#=============================
+
+#DGE-DIRETORIA
+
+Job {
+  Name = "SRVFILE1-M-DGE-DIRETORIA"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DGE-DIRETORIA"
+  Client = srvfile1-fd
+    }
+
+#-----------------------------
+
+#DGE-GECOM
+
+Job {
+  Name = "SRVFILE1-M-DGE-GECOM"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DGE-GECOM"
+  Client = srvfile1-fd
+    }
+
+#-----------------------------
+
+#DGE-GEFIN
+
+Job {
+  Name = "SRVFILE1-M-DGE-GEFIN"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DGE-GEFIN"
+  Client = srvfile1-fd
+    }
+
+#-----------------------------
+
+#DGE-GERAD
+
+Job {
+  Name = "SRVFILE1-M-DGE-GERAD"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DGE-GERAD"
+  Client = srvfile1-fd
+    }
+
+#-----------------------------
+
+#DGE-GEREH
+
+Job {
+  Name = "SRVFILE1-M-DGE-GEREH"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DGE-GEREH"
+  Client = srvfile1-fd
+    }
+
+#-----------------------------
+
+#DGE-LICIT
+
+Job {
+  Name = "SRVFILE1-M-DGE-LICIT"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DGE-LICIT"
+  Client = srvfile1-fd
+    }
+
+
+#=============================
+
+#DOP-DIRETORIA
+
+Job {
+  Name = "SRVFILE1-M-DOP-DIRETORIA"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DOP-DIRETORIA"
+  Client = srvfile1-fd
+    }
+
+#-----------------------------
+
+#DOP-GECOT
+
+Job {
+  Name = "SRVFILE1-M-DOP-GECOT"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DOP-GECOT"
+  Client = srvfile1-fd
+    }
+
+#-----------------------------
+
+#DOP-GEMOF
+
+Job {
+  Name = "SRVFILE1-M-DOP-GEMOF"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DOP-GEMOF"
+  Client = srvfile1-fd
+    }
+
+#-----------------------------
+
+#DOP-GESIM
+
+Job {
+  Name = "SRVFILE1-M-DOP-GESIM"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DOP-GESIM"
+  Client = srvfile1-fd
+    }
+
+#-----------------------------
+
+#DOP-GESIV
+
+Job {
+  Name = "SRVFILE1-M-DOP-GESIV"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DOP-GESIV"
+  Client = srvfile1-fd
+    }
+
+#-----------------------------
+
+#DOP-GESOP
+
+Job {
+  Name = "SRVFILE1-M-DOP-GESOP"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DOP-GESOP"
+  Client = srvfile1-fd
+    }
+
+#=============================
+
+#DOS-ASS-ENG-AMB
+
+#Job {
+#  Name = "SRVFILE1-M-DOS-ASS_ENG_AMB"
+#  JobDefs = "DefaultJob"
+#  FileSet = "M-DOS-ASS_ENG_AMB"
+#  Client = srvfile1-fd
+#    }
+
+#-----------------------------
+
+#DOS-DIRETORIA
+
+#Job {
+#  Name = "SRVFILE1-M-DOS-DOS_DIRETORIA"
+#  JobDefs = "DefaultJob"
+#  FileSet = "M-DOS-DOS_DIRETORIA"
+#  Client = srvfile1-fd
+#    }
+
+#-----------------------------
+
+#DOS-GEDIF
+
+#Job {
+#  Name = "SRVFILE1-M-DOS-GEDIF"
+#  JobDefs = "DefaultJob"
+#  FileSet = "M-DOS-GEDIF"
+#  Client = srvfile1-fd
+#    }
+
+#-----------------------------
+#
+#DOS-GETUN
+
+#Job {
+#  Name = "SRVFILE1-M-DOS-GETUN"
+#  JobDefs = "DefaultJob"
+#  FileSet = "M-DOS-GETUN"
+#  Client = srvfile1-fd
+#    }
+
+#-----------------------------
+
+#DOS-GINS
+
+#Job {
+#  Name = "SRVFILE1-M-DOS-GINS"
+#  JobDefs = "DefaultJob"
+#  FileSet = "M-DOS-GINS"
+#  Client = srvfile1-fd
+#    }
+
+#=============================
+
+#DPR-ASJUR
+
+Job {
+  Name = "SRVFILE1-M-DPR-ASJUR"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DPR-ASJUR"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DPR-ASTEC
+
+Job {
+  Name = "SRVFILE1-M-DPR-ASTEC"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DPR-ASTEC"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DPR-AUDIT
+
+Job {
+  Name = "SRVFILE1-M-DPR-AUDIT"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DPR-AUDIT"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DPR-PRESIDENCIA
+
+Job {
+  Name = "SRVFILE1-M-DPR-PRESIDENCIA"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DPR-PRESIDENCIA"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DPR-SEGER
+
+Job {
+  Name = "SRVFILE1-M-DPR-SEGER"
+  JobDefs = "DefaultJob"
+  FileSet = "M-DPR-SEGER"
+  Client = srvfile1-fd
+    }
+
+
+#======================================================
+
+#DET-DIRETORIA
+
+Job {
+  Name = "SRVFILE1-P-DET-DIRETORIA"
+  JobDefs = "DefaultJob"
+  FileSet = "P-DET-DIRETORIA"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DET-GEPLA
+
+Job {
+  Name = "SRVFILE1-P-DET-GEPLA"
+  JobDefs = "DefaultJob"
+  FileSet = "P-DET-GEPLA"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DET-GEPRO
+
+Job {
+  Name = "SRVFILE1-P-DET-GEPRO"
+  JobDefs = "DefaultJob"
+  FileSet = "P-DET-GEPRO"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DET-GETEC
+
+Job {
+  Name = "SRVFILE1-P-DET-GETEC"
+  JobDefs = "DefaultJob"
+  FileSet = "P-DET-GETEC"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DET-GETRI
+
+Job {
+  Name = "SRVFILE1-P-DET-GETRI"
+  JobDefs = "DefaultJob"
+  FileSet = "P-DET-GETRI"
+  Client = srvfile1-fd
+    }
+
+#============================
+
+#DIM-DIRETORIA
+
+Job {
+  Name = "SRVFILE1-P-DIM-DIRETORIA"
+  JobDefs = "DefaultJob"
+  FileSet = "P-DIM-DIRETORIA"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DIM-GEMAR
+
+Job {
+  Name = "SRVFILE1-P-DIM-GEMAR"
+  JobDefs = "DefaultJob"
+  FileSet = "P-DIM-GEMAR"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DIM-GERIN
+
+Job {
+  Name = "SRVFILE1-P-DIM-GERIN"
+  JobDefs = "DefaultJob"
+  FileSet = "P-DIM-GERIN"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DIM-GEROC
+
+Job {
+  Name = "SRVFILE1-P-DIM-GEROC"
+  JobDefs = "DefaultJob"
+  FileSet = "P-DIM-GEROC"
+  Client = srvfile1-fd
+    }
+
+#----------------------------
+
+#DIM-GESIF
+
+Job {
+  Name = "SRVFILE1-P-DIM-GESIF"
+  JobDefs = "DefaultJob"
+  FileSet = "P-DIM-GESIF"
+  Client = srvfile1-fd
+    }
+
+
+#============================
+
+#DDE-DIRETORIA
+
+Job {
+  Name = "SRVFILE1-P-DDE-DIRETORIA"
+  JobDefs = "DefaultJob"
+  Client = srvfile1-fd
+  FileSet = "P-DDE-DIRETORIA"
+}
+
+
+#----------------------------
+
+#DDE-COMPARTILHAMENTO
+
+Job {
+  Name = "SRVFILE1-P-DDE-COMPARTILHAMENTO"
+  JobDefs = "DefaultJob"
+  Client = srvfile1-fd
+  FileSet = "P-DDE-COMPARTILHAMENTO"
+}
+
+
+#----------------------------
+
+#DDE-GEREA
+
+Job {
+  Name = "SRVFILE1-P-DDE-GEREA"
+  JobDefs = "DefaultJob"
+  Client = srvfile1-fd
+  FileSet = "P-DDE-GEREA"
+}
+
+
+#----------------------------
+
+#DDE-GEREM
+
+Job {
+  Name = "SRVFILE1-P-DDE-GEREM"
+  JobDefs = "DefaultJob"
+  Client = srvfile1-fd
+  FileSet = "P-DDE-GEREM"
+}
+
+
+#----------------------------
+
+#DDE-GEROE
+
+Job {
+  Name = "SRVFILE1-P-DDE-GEROE"
+  JobDefs = "DefaultJob"
+  Client = srvfile1-fd
+  FileSet = "P-DDE-GEROE"
+}
+
+
+#-------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------
+
+#SRVFILE3
+
+#CONTROLE
+
+Job {
+ Name = "SRVFILE3-E-CONTROLE"
+  JobDefs = "DefaultJob"
+  FileSet = "E-CONTROLE"
+  Client = srvfile3-fd
+  Priority = 11
+}
+
+#----------------------------
+
+#BANCOS
+
+Job {
+ Name = "SRVFILE3-E-BANCO"
+  JobDefs = "DefaultJob"
+  FileSet = "E-BANCO"
+  Client = srvfile3-fd
+  Priority = 11
+}
+
+
+#-------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------
+
