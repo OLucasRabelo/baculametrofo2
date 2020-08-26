@@ -1,0 +1,82 @@
+#################################################################
+#								#
+# ARQUIVO DE CONFIGURACAO DOS "CLIENTS"				#
+#								#
+# CRIADO EM: 04/03/2016						#
+#								#
+# ATUALIZADO EM: 08/02/2018					#
+#								#
+# AUTOR: Auricelio Freitas				 	#
+#								#
+#################################################################
+
+#-------------------------------------------------------------------------------------
+
+# SRVBACULA2
+
+Client {
+  Name = srvbacula2-fd
+  Address = localhost
+  Password = "fS5vB5rFsgxHN_TPM7oRSIToj8vyfVDF0"          # password for FileDaemon
+
+  FDPort          = 9102
+  Catalog         = MyCatalog
+  File Retention  = 30 days
+  Job Retention   = 6 months
+  AutoPrune       = yes
+
+       }
+
+#-------------------------------------------------------------------------------------
+
+# SRVFILE1
+
+Client {
+  Name = srvfile1-fd
+  Address = srvfile1.metro.net
+#  Address = 172.25.19.48
+  Password = "rBO+32d39gBwIdv3tZi+5DhtZRzdY0YIXtnjXBX6mhYC"
+
+  FDPort          = 9102
+  Catalog         = MyCatalog
+  File Retention  = 30 days
+  Job Retention   = 6 months
+  AutoPrune       = yes
+
+
+       }
+
+
+#-------------------------------------------------------------------------------------
+
+# SRVFILE3
+
+Client {
+  Name = srvfile3-fd
+  Address = srvfile3.metro.net
+  Password = "zodGOzijthaA37q9GSMhxWofXJxeguK1/zHdXzeVsPYU"
+
+  FDPort          = 9102
+  Catalog         = MyCatalog
+  File Retention  = 30 days
+  Job Retention   = 6 months
+  AutoPrune       = yes
+
+
+}
+
+
+#-------------------------------------------------------------------------------------
+
+# hgsrv57
+
+Client {
+  Name = hgsrv57-fd
+  Address = 172.25.19.57
+  Password = "fS5vB5rFsgxHN_TPM7oRSIToj8vyfVDF0"
+  FDPort          = 9102
+  Catalog         = MyCatalog
+  AutoPrune       = yes
+
+}
+
